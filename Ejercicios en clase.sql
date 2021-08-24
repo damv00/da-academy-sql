@@ -1,13 +1,4 @@
-CREATE TABLE lab.students(
-	`Student_ID` VARCHAR(40),
-	`First_Name` VARCHAR(40),
-	`Last_Name` VARCHAR(40),
-	`State` VARCHAR(40),
-	`Age` integer,
-	`Gender` CHAR(1),
-	`Capability` VARCHAR(40)
-	);
-	
+
 DROP TABLE lab.students;
 
 CREATE TABLE lab.students(
@@ -75,6 +66,43 @@ CASE
 	WHEN age BETWEEN 0 AND 21 THEN 'Gen Z' 
 	WHEN age BETWEEN 22 AND 25 THEN 'Millenial'
 	WHEN age>=26 THEN 'Baby Boomer'
+	ELSE 'Not available'
 END 'Generation'
 FROM students
 ORDER BY age;
+
+
+SELECT firstName,lastName,gender,
+CASE
+	WHEN age>=0 AND age<=21 THEN 'Gen Z' 
+	WHEN age>=22 AND age<=25 THEN 'Millenial'
+	WHEN age>=26 THEN 'Baby Boomer'
+	ELSE 'Not available'
+END 'Generation'
+FROM students
+ORDER BY age;
+
+
+SELECT *
+FROM grades;
+
+SELECT s.firstName,s.lastName
+FROM students AS s
+LEFT JOIN grades AS g
+ON s.studentId=g.Student_ID
+WHERE ISNULL(g.Grade);
+
+SELECT A.firstName,A.lastName,B.fistName AS 'PeopleLead'
+FROM lab.students AS A
+INNER JOIN lab.students AS B
+ON B.peopleLeadID=A.studentID;
+
+SELECT state,COUNT(*)
+FROM students
+GROUP BY state;
+
+SELECT state,COUNT(*) AS Quantity
+FROM students
+GROUP BY state
+HAVING Quantity>1;
+
